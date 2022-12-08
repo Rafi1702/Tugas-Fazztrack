@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
-        /* CUSTOM CARD */
+        /* CARD MENAMPILKAN JUMLAH BALANCE DAN NUMBER */
         Container(
           margin: EdgeInsets.only(left: 16, right: 16, top: 16),
           height: 141,
@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ]),
         ),
 
-        /* ALIGN UNTUK BUTTON*/
+        /* BUTTON DAN ALIGN-NYA*/
         Container(
           margin: EdgeInsets.only(
             top: 32,
@@ -147,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ]),
         ),
 
-        /*Memanggil Class Widget untuk menampilkan history card*/
+        /*MEMANGGIL CLASS TransactionHistoryCard UNTUK DITAMPILKAN*/
         TransactionHistoryCard(
             image: "lib/images/profile-history.png",
             name: 'Samuel Suhi',

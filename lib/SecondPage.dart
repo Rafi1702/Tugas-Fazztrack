@@ -26,6 +26,11 @@ class SecondPage extends StatefulWidget {
 
 class _SecondPageState extends State<SecondPage> {
   var amountInput = 0;
+  final inputFormat = CurrencyTextInputFormatter(
+      decimalDigits: 0,
+      groupSeparator: ".",
+      decimalSeparator: " ",
+      prefix: "Rp. ");
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +66,8 @@ class _SecondPageState extends State<SecondPage> {
                 ],
               ),
             ),
+
+            /* MENAMPILKAN CARD UNTUK TRANSACTION HISTORY */
             Container(
               height: 96,
               margin: EdgeInsets.only(top: 32, left: 16, right: 16),
@@ -93,17 +100,13 @@ class _SecondPageState extends State<SecondPage> {
               margin: EdgeInsets.only(top: 16),
               child: Text("Rp.120.000 Available"),
             ),
+
+            /* TEXT FIELD UNTUK MENG-INPUT AMOUNT */
             Container(
               margin: EdgeInsets.only(top: 32, left: 64, right: 64),
               child: TextFormField(
                 keyboardType: TextInputType.number,
-                inputFormatters: [
-                  CurrencyTextInputFormatter(
-                      decimalDigits: 0,
-                      groupSeparator: ".",
-                      decimalSeparator: " ",
-                      prefix: "Rp. ")
-                ],
+                inputFormatters: [inputFormat],
                 style: TextStyle(fontSize: 42, fontWeight: FontWeight.w700),
                 textAlign: TextAlign.center,
                 cursorColor: Colors.red,
@@ -125,6 +128,8 @@ class _SecondPageState extends State<SecondPage> {
                 left: 16,
                 right: 16,
               ),
+
+              /* TEXT FIELD NOTES */
               child: TextFormField(
                 decoration: InputDecoration(
                     hintText: "Add some notes",
