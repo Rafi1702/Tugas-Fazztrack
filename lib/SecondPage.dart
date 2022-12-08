@@ -6,12 +6,18 @@ import 'package:number_text_input_formatter/number_text_input_formatter.dart';
 
 class SecondPage extends StatefulWidget {
   final String name; //menerima variabel dari HomePage untuk ditampilkan
-  final String
-      balance; //menampung amount untuk dibuat kondisi jika field tidak disubmit dan menekan tombol balik maka pada nominal tidak ada perubahan
+  final int
+      amountSave; //menampung amount untuk dibuat kondisi jika properties tidak disubmit dan menekan tombol balik maka pada nominal tidak ada perubahan
   final String image; //menerima variabel dari HomePage untuk ditampilkan
   final String number; //menerima variabel dari HomePage untuk ditampilkan
+  final String transaction;
   const SecondPage(
-      {Key key, this.name, this.balance, this.image, this.number = ""})
+      {Key key,
+      this.name,
+      this.amountSave,
+      this.image,
+      this.number = "",
+      this.transaction})
       : super(key: key);
 
   @override
@@ -19,7 +25,8 @@ class SecondPage extends StatefulWidget {
 }
 
 class _SecondPageState extends State<SecondPage> {
-  var amount = "";
+  var amountInput = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,10 +48,10 @@ class _SecondPageState extends State<SecondPage> {
                         child: Image.asset("lib/images/arrow-left.png"),
                       ),
                       onTap: () {
-                        if (amount.isEmpty) {
-                          amount = widget.balance;
+                        if (amountInput == 0) {
+                          amountInput = widget.amountSave;
                         }
-                        Navigator.pop(context, amount);
+                        Navigator.pop(context, amountInput);
                       }),
                   Text("Transfer",
                       style: TextStyle(
@@ -75,7 +82,9 @@ class _SecondPageState extends State<SecondPage> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
                                 color: Color(0xFF4D4B57))),
-                        Text(widget.number),
+                        widget.number != ""
+                            ? Text(widget.number)
+                            : Text(widget.transaction),
                       ]),
                 ),
               ]),
@@ -91,20 +100,22 @@ class _SecondPageState extends State<SecondPage> {
                 inputFormatters: [
                   CurrencyTextInputFormatter(
                       decimalDigits: 0,
-                      groupSeparator: '.',
-                      decimalSeparator: ' ',
+                      groupSeparator: ".",
+                      decimalSeparator: " ",
                       prefix: "Rp. ")
                 ],
                 style: TextStyle(fontSize: 42, fontWeight: FontWeight.w700),
                 textAlign: TextAlign.center,
                 cursorColor: Colors.red,
                 decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "0.00",
-                    hintStyle:
-                        TextStyle(fontSize: 42, fontWeight: FontWeight.w700)),
+                  border: InputBorder.none,
+                  hintText: "0.00",
+                  hintStyle:
+                      TextStyle(fontSize: 42, fontWeight: FontWeight.w700),
+                ),
                 onFieldSubmitted: (control) {
-                  amount = control;
+                  final convert = control.replaceAll(RegExp(r'[^0-9]'), '');
+                  amountInput = int.tryParse(convert);
                 },
               ),
             ),

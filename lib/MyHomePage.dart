@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart ';
+import 'package:intl/intl.dart';
 
 import 'SecondPage.dart';
 
@@ -29,15 +30,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text("Hello, ", style: TextStyle(fontSize: 18)),
+                    Text("Hello, ",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFF646464))),
                     Text("Robert Chandler",
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        )),
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18,
+                            color: Color(0xFF3D3D3D))),
                   ]),
               Spacer(),
-              Container(child: Image.asset("lib/images/bell.png")),
+              Image.asset("lib/images/bell.png"),
             ],
           ),
         ),
@@ -90,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
-                      color: Colors.black,
+                      color: Color(0xFF514F5B),
                     )),
                 style: ElevatedButton.styleFrom(
                     elevation: 0,
@@ -110,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
-                        color: Colors.black,
+                        color: Color(0xFF514F5B),
                       )),
                   style: ElevatedButton.styleFrom(
                       elevation: 0,
@@ -132,7 +137,10 @@ class _MyHomePageState extends State<MyHomePage> {
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text(
               "Transaction History",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF514F5B)),
             ),
             Text("See all",
                 style: TextStyle(fontSize: 14, color: Color(0xFF6379F4)))
@@ -145,17 +153,29 @@ class _MyHomePageState extends State<MyHomePage> {
             name: 'Samuel Suhi',
             transaction: "Transfer",
             prefix: "+",
-            amount: "Rp. 50.000",
-            textColor: Color(0xFF1EC15F),
+            amount: 50000,
             number: "+62 813-8492-9994"),
+        TransactionHistoryCard(
+            image: "lib/images/spotify.png",
+            name: "Spotify",
+            transaction: "Subscription",
+            prefix: "-",
+            amount: 49000,
+            number: ""),
         TransactionHistoryCard(
             image: "lib/images/netflix.png",
             name: 'Netflix',
             transaction: "Subscription",
             prefix: "-",
-            amount: "Rp. 60.000",
-            textColor: Color(0xFFFF5B37),
+            amount: 149000,
             number: ""),
+        TransactionHistoryCard(
+            image: "lib/images/profile-history2.png",
+            name: "Bobi Sammy",
+            transaction: "Transfer",
+            prefix: "+",
+            amount: 1150000,
+            number: "+62 813-3124-9999"),
       ]),
     );
   }
@@ -165,9 +185,8 @@ class TransactionHistoryCard extends StatefulWidget {
   final String image; //untuk di-pass ke secondpage dan tampilan card
   final String name; //untuk di-pass ke secondpage dan tampilan card
   final String transaction;
-  final String amount;
+  final int amount;
   final String prefix;
-  final Color textColor;
   final String number; //untuk di-pass ke secondpage
 
   TransactionHistoryCard({
@@ -177,7 +196,6 @@ class TransactionHistoryCard extends StatefulWidget {
     this.transaction,
     this.amount,
     this.prefix,
-    this.textColor,
     this.number,
   }) : super(key: key);
 
@@ -186,7 +204,9 @@ class TransactionHistoryCard extends StatefulWidget {
 }
 
 class _TransactionHistoryCardState extends State<TransactionHistoryCard> {
-  var amountSave = "";
+  var amountSave = 0;
+  final formatCurrency =
+      NumberFormat.currency(locale: "in_ID", symbol: "Rp. ", decimalDigits: 0);
 
   @override
   initState() {
@@ -205,9 +225,14 @@ class _TransactionHistoryCardState extends State<TransactionHistoryCard> {
           height: 96,
           width: 375,
           decoration: BoxDecoration(
-            color: Color(0xFFFFFFFF),
-            borderRadius: BorderRadius.circular(10),
-          ),
+              color: Color(0xFFFFFFFF),
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                    color: Color(0xFF000000).withOpacity(0.05),
+                    offset: Offset(0.0, 1.0),
+                    blurRadius: 0.05)
+              ]),
           child: Row(children: [
             Container(
                 margin: EdgeInsets.only(right: 16),
@@ -218,30 +243,44 @@ class _TransactionHistoryCardState extends State<TransactionHistoryCard> {
                 children: [
                   Text(
                     widget.name,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF4D4B57)),
                   ),
-                  Text(widget.transaction)
+                  Text(widget.transaction,
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFF7A7886)))
                 ]),
             Spacer(),
-            Text(widget.prefix + amountSave,
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: widget.textColor)),
+            widget.prefix == "+"
+                ? Text("${widget.prefix}${formatCurrency.format(amountSave)}",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF1EC15F)))
+                : Text("${widget.prefix}${formatCurrency.format(amountSave)}",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFFFF5B37))),
           ]),
         ),
         onTap: () async {
-          var test = await Navigator.push(
+          var pass = await Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => SecondPage(
                     name: widget.name,
-                    balance: amountSave,
+                    amountSave: amountSave,
                     image: widget.image,
-                    number: widget.number)),
+                    number: widget.number,
+                    transaction: widget.transaction)),
           );
           setState(() {
-            amountSave = test;
+            amountSave = pass;
           });
         },
       ),
