@@ -2,35 +2,42 @@
 
 import 'package:flutter/material.dart%20';
 import 'package:number_text_input_formatter/number_text_input_formatter.dart';
-// import 'package:pattern_formatter/numeric_formatter.dart';
 
 class SecondPage extends StatefulWidget {
-  final String name; //menerima variabel dari HomePage untuk ditampilkan
-  final int
-      amountSave; //menampung amount untuk dibuat kondisi jika properties tidak disubmit dan menekan tombol balik maka pada nominal tidak ada perubahan
-  final String image; //menerima variabel dari HomePage untuk ditampilkan
-  final String number; //menerima variabel dari HomePage untuk ditampilkan
-  final String transaction;
-  const SecondPage(
-      {Key key,
-      this.name,
-      this.amountSave,
-      this.image,
-      this.number = "",
-      this.transaction})
-      : super(key: key);
+  final String name;
+  final int id;
+  final String address; //menerima variabel dari HomePage untuk ditampilkan
+  // final int
+  //     amountSave; //menampung amount untuk dibuat kondisi jika properties tidak disubmit dan menekan tombol balik maka pada nominal tidak ada perubahan
+  // final String image; //menerima variabel dari HomePage untuk ditampilkan
+  // final String number; //menerima variabel dari HomePage untuk ditampilkan
+  // final String transaction;
+
+  const SecondPage({
+    Key key,
+    this.name,
+    this.id,
+    this.address,
+  }) : super(key: key);
 
   @override
   State<SecondPage> createState() => _SecondPageState();
 }
 
 class _SecondPageState extends State<SecondPage> {
-  var amountInput = 0;
+  // var amountInput = 0;
   final inputFormat = CurrencyTextInputFormatter(
       decimalDigits: 0,
       groupSeparator: ".",
       decimalSeparator: " ",
       prefix: "Rp. ");
+
+  // bool checkAmount(int amountInput) {
+  //   if (amountInput == 0) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +54,11 @@ class _SecondPageState extends State<SecondPage> {
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       child: Container(
-                        margin: EdgeInsets.only(
-                          right: 16,
-                        ),
+                        margin: EdgeInsets.only(right: 16),
                         child: Image.asset("lib/images/arrow-left.png"),
                       ),
                       onTap: () {
-                        if (amountInput == 0) {
-                          amountInput = widget.amountSave;
-                        }
-                        Navigator.pop(context, amountInput);
+                        Navigator.pop(context);
                       }),
                   Text("Transfer",
                       style: TextStyle(
@@ -77,7 +79,6 @@ class _SecondPageState extends State<SecondPage> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(children: [
-                Image.asset(widget.image),
                 Container(
                   margin: EdgeInsets.only(left: 16),
                   child: Column(
@@ -89,11 +90,11 @@ class _SecondPageState extends State<SecondPage> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
                                 color: Color(0xFF4D4B57))),
-                        widget.number != ""
-                            ? Text(widget.number)
-                            : Text(widget.transaction),
+                        Text(widget.address),
                       ]),
                 ),
+                Spacer(),
+                Text(widget.id.toString())
               ]),
             ),
             Container(
@@ -116,10 +117,15 @@ class _SecondPageState extends State<SecondPage> {
                   hintStyle:
                       TextStyle(fontSize: 42, fontWeight: FontWeight.w700),
                 ),
-                onFieldSubmitted: (control) {
-                  final convert = control.replaceAll(RegExp(r'[^0-9]'), '');
-                  amountInput = int.tryParse(convert);
-                },
+                // onChanged: (test) {
+                //   final convert = test.replaceAll(RegExp(r'[^0-9]'), '');
+                //   amountInput = int.tryParse(convert);
+                // },
+                // onFieldSubmitted: (_) {
+                //   if (amountInput == 0) {
+                //     return errorAmount(context);
+                //   }
+                // },
               ),
             ),
             Container(
@@ -148,5 +154,22 @@ class _SecondPageState extends State<SecondPage> {
         ),
       ),
     );
+  }
+
+  Future<String> errorAmount(BuildContext context) {
+    return showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+              title: Text("Caution"),
+              content: Text("Amount belum Terisi"),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, "");
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            ));
   }
 }
