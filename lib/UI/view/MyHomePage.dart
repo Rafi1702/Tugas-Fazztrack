@@ -184,11 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             id: modelView.user[index].id,
                             address: modelView.user[index].address.city,
                             onTap: () {
-                              Get.to(SecondPage(
-                                name: modelView.user[index].name,
-                                id: modelView.user[index].id,
-                                address: modelView.user[index].address.city,
-                              ));
+                              viewModel.sendCard(context, index);
                             });
                       }),
                   SizedBox(height: 24)

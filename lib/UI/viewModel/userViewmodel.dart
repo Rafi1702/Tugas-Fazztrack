@@ -5,11 +5,11 @@ import 'package:get/get.dart';
 import '../../Core/model/userModel.dart';
 import '../../Core/service/userService.dart';
 import '../view/MyHomePage.dart';
+import '../view/SecondPage.dart';
 
 class UserViewModel extends GetxController {
   UserService service = UserService();
   List<UserModel> user;
-  List setData = [];
 
   bool isBusy = true;
   String setUsername = "";
@@ -32,10 +32,6 @@ class UserViewModel extends GetxController {
     setPassword = pass;
   }
 
-  createUserName(String username) {
-    setEmail = username;
-  }
-
   userLogin(BuildContext context) async {
     var result =
         await service.userLogin(email: setEmail, password: setPassword);
@@ -45,5 +41,13 @@ class UserViewModel extends GetxController {
     } else {
       Get.defaultDialog(title: "Failed on login");
     }
+  }
+
+  sendCard(BuildContext context, int index) {
+    Get.to(SecondPage(
+      name: user[index].name,
+      id: user[index].id,
+      address: user[index].address.city,
+    ));
   }
 }
