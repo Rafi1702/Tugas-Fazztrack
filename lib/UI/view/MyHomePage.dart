@@ -2,32 +2,36 @@
 
 import 'package:flutter/material.dart ';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import '../viewModel/userViewmodel.dart';
 import 'SecondPage.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key key}) : super(key: key);
+  final userName;
+  const MyHomePage({
+    Key key,
+    this.userName,
+
+    // this.viewModel,
+  }) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  userViewModel _viewModel = Get.put(userViewModel());
-
+  UserViewModel viewModel = Get.put(UserViewModel());
   @override
   void initState() {
-    _viewModel.getDataFromApi();
-    // print(_viewModel.result);
+    viewModel.getDataUser();
+
     super.initState();
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFFAFCFF),
-      body: GetBuilder<userViewModel>(builder: (modelView) {
+      body: GetBuilder<UserViewModel>(builder: (modelView) {
         return modelView.isBusy
             ? Container(
                 child: Center(
@@ -53,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       fontSize: 18,
                                       fontWeight: FontWeight.w400,
                                       color: Color(0xFF646464))),
-                              Text("Robert Chandler",
+                              Text(widget.userName.toString(),
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 18,
@@ -173,19 +177,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: modelView.setData.length,
+                      itemCount: modelView.user.length,
                       itemBuilder: (context, index) {
                         return HistoryCard(
-                            name: modelView.setData[index]['name'],
-                            id: modelView.setData[index]['id'],
-                            address: modelView.setData[index]['address']
-                                ['city'],
+                            name: modelView.user[index].name,
+                            id: modelView.user[index].id,
+                            address: modelView.user[index].address.city,
                             onTap: () {
                               Get.to(SecondPage(
-                                name: modelView.setData[index]['name'],
-                                id: modelView.setData[index]['id'],
-                                address: modelView.setData[index]['address']
-                                    ['city'],
+                                name: modelView.user[index].name,
+                                id: modelView.user[index].id,
+                                address: modelView.user[index].address.city,
                               ));
                             });
                       }),

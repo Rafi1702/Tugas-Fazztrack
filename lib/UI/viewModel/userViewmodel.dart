@@ -1,31 +1,49 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class userViewModel extends GetxController {
+import '../../Core/model/userModel.dart';
+import '../../Core/service/userService.dart';
+import '../view/MyHomePage.dart';
+
+class UserViewModel extends GetxController {
+  UserService service = UserService();
+  List<UserModel> user;
   List setData = [];
-  var _dio = Dio();
+
   bool isBusy = true;
-  var result;
+  String setUsername = "";
+  String setEmail = "";
+  String setPassword = "";
 
-  Future getDataFromApi() async {
+  Future getDataUser() async {
     isBusy = true;
-    result = await _dio.get("https://jsonplaceholder.typicode.com/users");
-    setData = result.data;
+    var response = await service.getUser();
+    user = response;
     isBusy = false;
-
     update();
   }
 
-  Future postDataToApi({String email, String password}) async {
-    result = await _dio.post("http://23.20.237.176:8000/auth/login",
-        data: {"email": email, "password": password});
-    return result;
+  emailUser(String email) {
+    setEmail = email;
   }
 
-  bool valid(var result) {
-    if (result == 200) {
-      return true;
+  passwordUser(String pass) {
+    setPassword = pass;
+  }
+
+  createUserName(String username) {
+    setEmail = username;
+  }
+
+  userLogin(BuildContext context) async {
+    var result =
+        await service.userLogin(email: setEmail, password: setPassword);
+    print(result.statusCode);
+    if (result.statusCode == 200) {
+      Get.off(MyHomePage(userName: setEmail));
+    } else {
+      Get.defaultDialog(title: "Failed on login");
     }
-    return false;
   }
 }
