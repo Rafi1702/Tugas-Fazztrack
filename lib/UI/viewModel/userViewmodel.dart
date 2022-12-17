@@ -36,10 +36,18 @@ class UserViewModel extends GetxController {
     var result =
         await service.userLogin(email: setEmail, password: setPassword);
     print(result.statusCode);
+
     if (result.statusCode == 200) {
       Get.off(MyHomePage(userName: setEmail));
     } else {
-      Get.defaultDialog(title: "Failed on login");
+      Get.defaultDialog(
+          title: "Failed on login",
+          middleText: " ",
+          confirm: ElevatedButton(
+              child: Text("Ok"),
+              onPressed: () {
+                Get.back();
+              }));
     }
   }
 
