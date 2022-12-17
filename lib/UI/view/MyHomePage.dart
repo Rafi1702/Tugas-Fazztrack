@@ -4,15 +4,12 @@ import 'package:flutter/material.dart ';
 import 'package:get/get.dart';
 
 import '../viewModel/userViewmodel.dart';
-import 'SecondPage.dart';
 
 class MyHomePage extends StatefulWidget {
   final userName;
   const MyHomePage({
     Key key,
     this.userName,
-
-    // this.viewModel,
   }) : super(key: key);
 
   @override
@@ -21,11 +18,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   UserViewModel viewModel = Get.put(UserViewModel());
+
   @override
   void initState() {
-    viewModel.getDataUser();
-
     super.initState();
+    viewModel.getDataUser();
   }
 
   Widget build(BuildContext context) {

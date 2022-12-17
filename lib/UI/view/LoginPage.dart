@@ -1,12 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart%20';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:get/get.dart';
-import 'package:dio/dio.dart';
+
 import '../../Core/service/userService.dart';
 import '../viewModel/userViewmodel.dart';
-import 'MyHomePage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);

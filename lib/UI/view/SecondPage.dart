@@ -1,17 +1,10 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart%20';
 import 'package:number_text_input_formatter/number_text_input_formatter.dart';
 
 class SecondPage extends StatefulWidget {
   final String name;
   final int id;
-  final String address; //menerima variabel dari HomePage untuk ditampilkan
-  // final int
-  //     amountSave; //menampung amount untuk dibuat kondisi jika properties tidak disubmit dan menekan tombol balik maka pada nominal tidak ada perubahan
-  // final String image; //menerima variabel dari HomePage untuk ditampilkan
-  // final String number; //menerima variabel dari HomePage untuk ditampilkan
-  // final String transaction;
+  final String address;
 
   const SecondPage({
     Key key,
@@ -25,19 +18,11 @@ class SecondPage extends StatefulWidget {
 }
 
 class _SecondPageState extends State<SecondPage> {
-  // var amountInput = 0;
   final inputFormat = CurrencyTextInputFormatter(
       decimalDigits: 0,
       groupSeparator: ".",
       decimalSeparator: " ",
       prefix: "Rp. ");
-
-  // bool checkAmount(int amountInput) {
-  //   if (amountInput == 0) {
-  //     return false;
-  //   }
-  //   return true;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -117,15 +102,6 @@ class _SecondPageState extends State<SecondPage> {
                   hintStyle:
                       TextStyle(fontSize: 42, fontWeight: FontWeight.w700),
                 ),
-                // onChanged: (test) {
-                //   final convert = test.replaceAll(RegExp(r'[^0-9]'), '');
-                //   amountInput = int.tryParse(convert);
-                // },
-                // onFieldSubmitted: (_) {
-                //   if (amountInput == 0) {
-                //     return errorAmount(context);
-                //   }
-                // },
               ),
             ),
             Container(
